@@ -36,7 +36,9 @@ class MainActivity : AppCompatActivity() {
 
             // executes if api call is successful
             override fun onSuccess(statusCode: Int, headers: Headers, json: JsonHttpResponseHandler.JSON) {
-                Log.d("Dog", "response successful")
+                Log.d("Dog", "response successful: $json")
+                val petImageURL = json.jsonObject.getString("message")
+                Log.d("petImageURL", "pet image URL set: $petImageURL")
             }
 
             // if all fails
