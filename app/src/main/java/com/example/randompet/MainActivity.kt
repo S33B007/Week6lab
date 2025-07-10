@@ -2,10 +2,13 @@ package com.example.randompet
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
+import android.widget.ImageView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.bumptech.glide.Glide
 import com.codepath.asynchttpclient.AsyncHttpClient
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler
 import okhttp3.Headers
@@ -26,7 +29,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         fetchDogImage()
-    }
+        val button = findViewById<Button>(R.id.petButton)
+        setupButton(button)
+        
+           }
 
     // function to get an image URL from the Dog API
     private fun fetchDogImage() {
@@ -39,6 +45,14 @@ class MainActivity : AppCompatActivity() {
                 Log.d("Dog", "response successful: $json")
                 val petImageURL = json.jsonObject.getString("message")
                 Log.d("petImageURL", "pet image URL set: $petImageURL")
+
+                val imageView = findViewById<ImageView>(R.id.PetImage)
+
+                Glide.with(this@MainActivity)
+                    .load(petImageURL)
+                    .fitCenter()
+                    .into(imageView)
+
             }
 
             // if all fails
@@ -51,6 +65,12 @@ class MainActivity : AppCompatActivity() {
                 Log.d("Dog Error", errorResponse)
             }
         }]
+    }
+
+    private fun setupButton(button: Button) {
+        button.setOnClickListener {
+            fetchDogImage()
+        }
     }
 
 
